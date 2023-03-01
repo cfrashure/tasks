@@ -67,7 +67,16 @@ export function sumPoints(questions: Question[]): number {
  * Consumes an array of questions and returns the sum total of the PUBLISHED questions.
  */
 export function sumPublishedPoints(questions: Question[]): number {
-    return 0;
+    const filterQuestions = questions.filter(
+        (x: Question): boolean => x.published
+    );
+    const questionPoints = filterQuestions.map(
+        (x: Question): number => x.points
+    );
+    return questionPoints.reduce(
+        (currentTotal: number, num: number) => currentTotal + num,
+        0
+    );
 }
 
 /***
