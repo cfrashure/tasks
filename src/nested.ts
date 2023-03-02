@@ -1,3 +1,4 @@
+import { queryByTestId } from "@testing-library/react";
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
 
@@ -113,9 +114,10 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-    return [];
+    return questions.map((x: Question): Answer => {
+        x.id, "", false, false;
+    });
 }
-
 /***
  * Consumes an array of Questions and produces a new array of questions, where
  * each question is now published, regardless of its previous published status.
@@ -129,7 +131,8 @@ export function publishAll(questions: Question[]): Question[] {
  * are the same type. They can be any type, as long as they are all the SAME type.
  */
 export function sameType(questions: Question[]): boolean {
-    return false;
+    const types: string[] = questions.map((x: Question): string => x.type);
+    return types.every((x: string): boolean => x === types[0]);
 }
 
 /***
