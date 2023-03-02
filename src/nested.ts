@@ -211,7 +211,41 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string
 ): Question[] {
-    return [];
+    let newQuestion = questions.map((x: Question): Question => ({ ...x }));
+    function getOptionSplice(
+        options: string[],
+        targetOptionIndex: number,
+        newOption: string
+    ): string[] {
+        let spliceOptions: string[] = [...options];
+        spliceOptions.splice(targetOptionIndex, 1, newOption);
+        return spliceOptions;
+    }
+    if (targetOptionIndex === -1) {
+        //console.log("Reeached for -1! " + targetId);
+        newQuestion = newQuestion.map(
+            (x: Question): Question =>
+                x.id === targetId
+                    ? { ...x, options: [...x.options, newOption] }
+                    : x
+        );
+    } else {
+        //console.log("Reeached for NON -1! " + targetId);
+        newQuestion = newQuestion.map(
+            (x: Question): Question =>
+                x.id === targetId
+                    ? {
+                          ...x,
+                          options: getOptionSplice(
+                              x.options,
+                              targetOptionIndex,
+                              newOption
+                          )
+                      }
+                    : x
+        );
+    }
+    return newQuestion;
 }
 
 /***
