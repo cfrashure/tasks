@@ -217,7 +217,7 @@ export function editOption(
         targetOptionIndex: number,
         newOption: string
     ): string[] {
-        let spliceOptions: string[] = [...options];
+        const spliceOptions: string[] = [...options];
         spliceOptions.splice(targetOptionIndex, 1, newOption);
         return spliceOptions;
     }
@@ -231,19 +231,20 @@ export function editOption(
         );
     } else {
         //console.log("Reeached for NON -1! " + targetId);
-        newQuestion = newQuestion.map(
-            (x: Question): Question =>
-                x.id === targetId
-                    ? {
-                          ...x,
-                          options: getOptionSplice(
-                              x.options,
-                              targetOptionIndex,
-                              newOption
-                          )
-                      }
-                    : x
-        );
+        newQuestion = newQuestion.map((x: Question): Question => {
+            if (x.id === targetId) {
+                return {
+                    ...x,
+                    options: getOptionSplice(
+                        x.options,
+                        targetOptionIndex,
+                        newOption
+                    )
+                };
+            } else {
+                return x;
+            }
+        });
     }
     return newQuestion;
 }
