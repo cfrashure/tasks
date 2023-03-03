@@ -1,7 +1,7 @@
 import { queryByTestId } from "@testing-library/react";
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
-import { makeBlankQuestion } from "./objects";
+import { duplicateQuestion, makeBlankQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -231,19 +231,20 @@ export function editOption(
         );
     } else {
         //console.log("Reeached for NON -1! " + targetId);
-        newQuestion = newQuestion.map(
-            (x: Question): Question =>
-                x.id === targetId
-                    ? {
-                          ...x,
-                          options: getOptionSplice(
-                              x.options,
-                              targetOptionIndex,
-                              newOption
-                          )
-                      }
-                    : x
-        );
+        newQuestion = newQuestion.map((x: Question): Question => {
+            if (x.id === targetId) {
+                return {
+                    ...x,
+                    options: getOptionSplice(
+                        x.options,
+                        targetOptionIndex,
+                        newOption
+                    )
+                };
+            } else {
+                return x;
+            }
+        });
     }
     return newQuestion;
 }
@@ -259,5 +260,21 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    return [];
+    const deepCopy: Question[] = questions.map(
+        (x: Question): Question => ({ ...x, options: [...x.options] })
+    );
+    const duplicated: Question | undefined = deepCopy.find(
+        (x: Question): boolean => x.id === targetId
+    );
+    const duplicatedIndex: number = deepCopy.findIndex(
+        (x: Question): boolean => x.id === targetId
+    );
+    if (duplicated !== undefined) {
+        let newDup = { ...duplicated, options: [...duplicated.options] };
+        newDup = duplicateQuestion(newId, newDup);
+        deepCopy.splice(duplicatedIndex + 1, 0, newDup);
+        return deepCopy;
+    } else {
+        return deepCopy;
+    }
 }
