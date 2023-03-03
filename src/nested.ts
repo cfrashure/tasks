@@ -217,7 +217,7 @@ export function editOption(
         targetOptionIndex: number,
         newOption: string
     ): string[] {
-        let spliceOptions: string[] = [...options];
+        const spliceOptions: string[] = [...options];
         spliceOptions.splice(targetOptionIndex, 1, newOption);
         return spliceOptions;
     }
