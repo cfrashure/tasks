@@ -19,7 +19,7 @@ function App(): JSX.Element {
                 sentence was added by Colby Frashure.
             </header>
             <hr></hr>
-            {/* <DoubleHalf></DoubleHalf> */}
+            <DoubleHalf></DoubleHalf>
             <hr></hr>
             <ChooseTeam></ChooseTeam>
             <hr></hr>
