@@ -12,7 +12,7 @@ export function CheckAnswer({
     }
     return (
         <div>
-            <Form.Group controlId="formMovieName">
+            <Form.Group controlId="formAnswer">
                 <Form.Label>Check Answer:</Form.Label>
                 <Form.Control value={answer} onChange={updateAnswer} />
             </Form.Group>
