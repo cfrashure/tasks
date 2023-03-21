@@ -24,6 +24,7 @@ export function GiveAttempts(): JSX.Element {
                         setRequest(event.target.value)
                     }
                 />
+                &nbsp;
             </Form.Group>
             <span>
                 <Button
